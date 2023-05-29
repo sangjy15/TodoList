@@ -1,17 +1,48 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <h2 class="text-center">Todo Apllication</h2>
+    <div class="mb-3">
+      <label for="basic-url" class="form-label">Your Todo LIst</label>
+      <div class="input-group">
+    <input type="text" class="form-control" v-model="userInput">
+    <span class="input-group-text"><button type="button" class="btn btn-primary" @click="fn_AddTodo">Add</button></span>
+  </div>
+  </div>
+  <div class="list-group">
+    <li class="list-group-item" v-for="( item, key ) in todoList" v-bind:key="key">
+      {{ item.label }}
+      <button type="button" class="btn btn-outline-danger" @click="fn_DeleteTodo(item.key)">delete</button>
+    </li>
+  </div>
+  </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
+  data() {
+    return {
+      userInput: '',
+      todoList: []
+    }
+  },
   components: {
-    HelloWorld
+  },
+  methods: {
+    fn_AddTodo () {
+      if (this.userInput === '') return
+      this.todoList.push({
+        key: this.todoList.length,
+        label: this.userInput
+      })
+      this.userInput = ''
+    },
+    fn_DeleteTodo (key) {
+      this.todoList = this.todoList.filter((item) => item.key !== key)
+    }
   }
 }
 </script>
